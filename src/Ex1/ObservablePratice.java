@@ -1,3 +1,5 @@
+package Ex1;
+
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
@@ -36,7 +38,7 @@ public class ObservablePratice {
             }
         };
 
-        Main.IntObservable io = new Main.IntObservable();
+        IntObservable io = new IntObservable();
         io.addObserver(ob); // ob가 data를 받기는 하지만, 사실상 데이터를 던지는 쪽은 io의 notifyObservers()이다
 
         io.run();
