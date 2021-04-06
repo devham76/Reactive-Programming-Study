@@ -2,10 +2,10 @@ package Ex2;
 
 import java.util.concurrent.Flow;
 
-public class DelegateSubClean<T> implements Flow.Subscriber<T> {
+public class DelegateSubClean<T,R> implements Flow.Subscriber<T> {
     Flow.Subscriber subscriber;
 
-    public DelegateSubClean(Flow.Subscriber<? super T> subscriber) {
+    public DelegateSubClean(Flow.Subscriber<? super R> subscriber) {
         this.subscriber = subscriber;
 
     }

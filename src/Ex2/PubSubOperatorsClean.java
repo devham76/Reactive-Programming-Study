@@ -10,25 +10,38 @@ import java.util.stream.Stream;
 public class PubSubOperatorsClean {
     public static void main(String[] args) {
 
-        Flow.Publisher<Integer> pub = iterPub(Stream.iterate(1, a -> a + 1).limit(10).collect(Collectors.toList()));
+        Flow.Publisher<Integer> pub = iterPub(Stream.iterate(1, a -> a + 1).limit(10)
+                                                    .collect(Collectors.toList()));
         //Flow.Publisher<Integer> mapPub = mapPub(pub, (Function<Integer, Integer>) s -> s * 10);
         //Flow.Publisher<Integer> sumPub = sumPub(pub);
         // BiFunction: 인수2개받기
-        //Flow.Publisher<Integer> reducePub = reducePub(pub, 1, (BiFunction<Integer, Integer, Integer>) (a, b) -> a + b);
+        //Flow.Publisher<Integer> reducePub = reducePub(pub, " ", (BiFunction<Integer, Integer, Integer>) (a, b) -> a +"-"+ b);
+
         Flow.Publisher<Integer> generalPub = generalPub(pub, (Function<Integer, Integer>) s -> s * 10);
+        Flow.Publisher<String> stringPub = generalPub(pub, s -> "[" + s + "]");
+        Flow.Publisher<String> reducePub = reducePub(pub, "", (a, b) -> a +"-"+ b);
 
-
-        generalPub.subscribe(logSub());
+        reducePub.subscribe(logSub());
     }
 
-    private static <T> Flow.Publisher<T> generalPub(Flow.Publisher<T> pub, Function<T, T> function) {
-        return new Flow.Publisher<T>() {
+    private static <T, R> Flow.Publisher<R> reducePub(Flow.Publisher<T> pub,
+                                                      R init,
+                                                      BiFunction<R, T, R> bf) {
+        return new Flow.Publisher<R>() {
             @Override
-            public void subscribe(Flow.Subscriber<? super T> subscriber) {
-                pub.subscribe(new DelegateSubClean<T>(subscriber) {
+            public void subscribe(Flow.Subscriber<? super R> subscriber) {
+                pub.subscribe(new DelegateSubClean<T, R>(subscriber) {
+                    R result = init;
+
                     @Override
                     public void onNext(T item) {
-                        subscriber.onNext(function.apply(item));
+                        result = bf.apply(result, item);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        subscriber.onNext(result);
+                        subscriber.onComplete();
                     }
                 });
             }
@@ -36,24 +49,15 @@ public class PubSubOperatorsClean {
 
     }
 
-    private static Flow.Publisher<Integer> reducePub(Flow.Publisher<Integer> pub,
-                                                     int init,
-                                                     BiFunction<Integer, Integer, Integer> bf) {
-        return new Flow.Publisher<Integer>() {
+    // T타입이 들어와서 R타입으로 리턴
+    private static <T, R> Flow.Publisher<R> generalPub(Flow.Publisher<T> pub, Function<T, R> function) {
+        return new Flow.Publisher<R>() {
             @Override
-            public void subscribe(Flow.Subscriber<? super Integer> subscriber) {
-                pub.subscribe(new DelegateSub(subscriber) {
-                    int result = init;
-
+            public void subscribe(Flow.Subscriber<? super R> subscriber) {
+                pub.subscribe(new DelegateSubClean<T, R>(subscriber) {
                     @Override
-                    public void onNext(Integer item) {
-                        result = bf.apply(result, init);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        subscriber.onNext(result);
-                        subscriber.onComplete();
+                    public void onNext(T item) {
+                        subscriber.onNext(function.apply(item));
                     }
                 });
             }
@@ -85,7 +89,8 @@ public class PubSubOperatorsClean {
         };
     }
 
-    private static Flow.Publisher<Integer> mapPub(Flow.Publisher<Integer> pub, Function<Integer, Integer> function) {
+    private static Flow.Publisher<Integer> mapPub(Flow.Publisher<Integer> pub,
+                                                  Function<Integer, Integer> function) {
         return new Flow.Publisher<Integer>() {
             @Override
             public void subscribe(Flow.Subscriber<? super Integer> paramSubscriber) {
