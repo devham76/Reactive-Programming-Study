@@ -1,14 +1,14 @@
-package Ex2;
+package example;
 
 import reactor.core.publisher.Flux;
 
 public class ReactorEx {
     public static void main(String[] args) {
         // Flux : publisher의 일종
-        Flux.create(e -> {
-            e.next(1);
-            e.next(2);
-            e.next(3);
+        Flux.<Integer>create(e -> {
+            e.next(10);
+            e.next(20);
+            e.next(30);
             e.complete();
         })
             .log() // 위와 아래를 연결하면서 어떻게 메소드를 출력하는지 확인가능

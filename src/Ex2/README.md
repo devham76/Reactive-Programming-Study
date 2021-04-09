@@ -12,7 +12,7 @@ Protocol
 - optional : (onError | onComplete)?
 
 
-## 개
+## 개념
 ![image](https://user-images.githubusercontent.com/55946791/113723463-56781e80-972c-11eb-9aba-bca5f6636bef.png)
 
 - Subscriber는 subscription.request(long n)을 통해 이벤트를 요청하고
