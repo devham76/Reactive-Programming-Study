@@ -1,4 +1,4 @@
-package Ex1;
+package lecture.day1;
 
 import java.util.Iterator;
 

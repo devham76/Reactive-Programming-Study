@@ -1,4 +1,4 @@
-package Ex2;
+package lecture.day2;
 
 import java.util.List;
 import java.util.concurrent.Flow;

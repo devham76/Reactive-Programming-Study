@@ -1,11 +1,11 @@
-package Ex2;
+package lecture.day2;
 
 import java.util.concurrent.Flow;
 
-public class DelegateSubClean<T,R> implements Flow.Subscriber<T> {
+public class DelegateSub implements Flow.Subscriber<Integer> {
     Flow.Subscriber subscriber;
 
-    public DelegateSubClean(Flow.Subscriber<? super R> subscriber) {
+    public DelegateSub(Flow.Subscriber subscriber) {
         this.subscriber = subscriber;
 
     }
@@ -15,7 +15,7 @@ public class DelegateSubClean<T,R> implements Flow.Subscriber<T> {
     }
 
     @Override
-    public void onNext(T item) {
+    public void onNext(Integer item) {
         subscriber.onNext(item);
     }
 

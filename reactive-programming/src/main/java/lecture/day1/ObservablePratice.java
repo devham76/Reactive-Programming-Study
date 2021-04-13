@@ -1,6 +1,5 @@
-package Ex1;
+package lecture.day1;
 
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 

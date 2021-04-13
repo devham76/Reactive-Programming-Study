@@ -1,4 +1,4 @@
-package example;
+package lecture.day2;
 
 import reactor.core.publisher.Flux;
 
@@ -21,6 +21,4 @@ public class ReactorEx {
 /*
 * 우리가 publisher를 만들고 던지면,
 * 스프링이 알아서 subscribe를 만든다
-*
-*
 * */

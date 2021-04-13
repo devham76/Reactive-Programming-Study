@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2020 LINE Corporation. All rights reserved.
+  ~ LINE Corporation PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+  -->
+<!DOCTYPE configuration>
+<configuration>
+  <property name="projectName" value="cocoa-api"/>
+  <property name="immediateFlush" value="true"/>
+  <springProperty scope="context" name="phase" source="spring.profiles.active" defaultValue="local"/>
+
+  <springProfile name="local">
+    <Root level='DEBUG'>
+      <appender-ref ref="ASYNC_CONSOLE"/>
+    </Root>
+  </springProfile>
+</configuration>
