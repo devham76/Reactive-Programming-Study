@@ -1,0 +1,28 @@
+<included>
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>%d{yyyy-MM-dd HH:mm:ss}|%-4p|%t|%X{x-sana-tid}|%F:%L|%msg%n</pattern>
+    </layout>
+  </appender>
+
+  <appender name="ASYNC_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
+    <param name="includeCallerData" value="true" />
+    <param name="discardingThreshold" value="10" />
+    <param name="queueSize" value="1024" />
+    <appender-ref ref="CONSOLE" />
+  </appender>
+
+  <appender name="PLAIN_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <layout class="ch.qos.logback.classic.PatternLayout">
+      <pattern>%d{yyyy-MM-dd HH:mm:ss}\t%-5level|%msg%n</pattern>
+    </layout>
+  </appender>
+
+  <appender name="ASYNC_PLAIN_CONSOLE" class="ch.qos.logback.classic.AsyncAppender">
+    <param name="includeCallerData" value="true" />
+    <param name="discardingThreshold" value="10" />
+    <param name="queueSize" value="1024" />
+    <appender-ref ref="PLAIN_CONSOLE" />
+  </appender>
+
+</included>

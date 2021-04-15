@@ -9,6 +9,8 @@
   <property name="immediateFlush" value="true"/>
   <springProperty scope="context" name="phase" source="spring.profiles.active" defaultValue="local"/>
 
+  <include resource="logback/appender-console.xml"/>
+
   <springProfile name="local">
     <Root level='DEBUG'>
       <appender-ref ref="ASYNC_CONSOLE"/>
