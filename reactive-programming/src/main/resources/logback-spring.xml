@@ -13,7 +13,7 @@
 
   <springProfile name="local">
     <Root level='DEBUG'>
-      <appender-ref ref="ASYNC_CONSOLE"/>
+      <appender-ref ref="PLAIN_CONSOLE"/>
     </Root>
   </springProfile>
 </configuration>
